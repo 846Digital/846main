@@ -1,0 +1,1458 @@
+<!DOCTYPE html>
+<html lang="ru">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <meta name="theme-color" content="#050816">
+  <meta name="description" content="846 Digital — разработка программного обеспечения, веб-приложений, AI-интеграций, ботов и автоматизации под ключ.">
+  <meta property="og:title" content="846 Digital — разработка цифровых решений">
+  <meta property="og:image" content="https://846digital.github.io/assets/logo-full.png">
+  <meta property="og:description" content="Разрабатываем программы, веб-приложения, AI-системы, ботов и автоматизацию под задачи бизнеса.">
+  <meta property="og:type" content="website">
+  <title>846 Digital — разработка и AI под ключ</title>
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=Manrope:wght@400;500;600;700;800&family=Unbounded:wght@500;600;700&display=swap" rel="stylesheet">
+  <link rel="icon" type="image/png" href="assets/logo-mark.png">
+  <link rel="apple-touch-icon" href="assets/logo-mark.png">
+  <style>
+    :root {
+      --bg: #050816;
+      --bg-soft: #090d1d;
+      --surface: rgba(15, 21, 43, 0.72);
+      --surface-strong: #10162b;
+      --line: rgba(143, 169, 255, 0.14);
+      --line-strong: rgba(116, 151, 255, 0.36);
+      --text: #f5f7ff;
+      --muted: #98a3bd;
+      --blue: #5d8cff;
+      --blue-bright: #7fa5ff;
+      --cyan: #66e8ff;
+      --violet: #9b7dff;
+      --success: #65e2b5;
+      --shadow: 0 30px 90px rgba(0, 0, 0, 0.42);
+      --radius: 28px;
+      --container: 1240px;
+    }
+
+    * { box-sizing: border-box; }
+    html { scroll-behavior: smooth; }
+    body {
+      margin: 0;
+      min-width: 320px;
+      color: var(--text);
+      background:
+        radial-gradient(circle at 15% 2%, rgba(93, 140, 255, 0.18), transparent 28rem),
+        radial-gradient(circle at 88% 20%, rgba(102, 232, 255, 0.10), transparent 26rem),
+        var(--bg);
+      font-family: "Manrope", system-ui, -apple-system, BlinkMacSystemFont, "Segoe UI", sans-serif;
+      overflow-x: hidden;
+    }
+
+    body::before {
+      content: "";
+      position: fixed;
+      inset: 0;
+      z-index: -3;
+      pointer-events: none;
+      opacity: .28;
+      background-image:
+        linear-gradient(rgba(255,255,255,.025) 1px, transparent 1px),
+        linear-gradient(90deg, rgba(255,255,255,.025) 1px, transparent 1px);
+      background-size: 54px 54px;
+      mask-image: linear-gradient(to bottom, #000 0%, transparent 75%);
+    }
+
+    a { color: inherit; }
+    button, input, textarea, select { font: inherit; }
+    button, a { -webkit-tap-highlight-color: transparent; }
+    img, svg { display: block; }
+
+    .container {
+      width: min(calc(100% - 40px), var(--container));
+      margin: 0 auto;
+    }
+
+    .topbar {
+      position: fixed;
+      top: 16px;
+      left: 0;
+      width: 100%;
+      z-index: 100;
+    }
+
+    .nav {
+      min-height: 70px;
+      padding: 10px 12px 10px 18px;
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+      gap: 24px;
+      border: 1px solid rgba(141, 165, 255, 0.14);
+      border-radius: 22px;
+      background: rgba(7, 11, 26, 0.74);
+      box-shadow: 0 14px 50px rgba(0,0,0,.28);
+      backdrop-filter: blur(22px);
+    }
+
+    .brand {
+      display: inline-flex;
+      align-items: center;
+      gap: 12px;
+      text-decoration: none;
+      flex-shrink: 0;
+    }
+
+    .brand-mark {
+      width: 52px;
+      height: 52px;
+      object-fit: cover;
+      border-radius: 15px;
+      filter: drop-shadow(0 0 18px rgba(20, 79, 255, .34));
+    }
+
+    .brand-copy strong {
+      display: block;
+      font-family: "Unbounded", sans-serif;
+      font-size: 15px;
+      letter-spacing: .02em;
+    }
+
+    .brand-copy span {
+      display: block;
+      margin-top: 3px;
+      color: var(--muted);
+      font-size: 9px;
+      letter-spacing: .22em;
+      text-transform: uppercase;
+    }
+
+    .nav-links {
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      gap: clamp(18px, 2.3vw, 34px);
+    }
+
+    .nav-links a {
+      position: relative;
+      color: #b9c2d8;
+      font-size: 13px;
+      font-weight: 600;
+      text-decoration: none;
+      transition: color .2s ease;
+    }
+
+    .nav-links a::after {
+      content: "";
+      position: absolute;
+      left: 0;
+      bottom: -7px;
+      width: 100%;
+      height: 1px;
+      background: var(--cyan);
+      transform: scaleX(0);
+      transform-origin: right;
+      transition: transform .25s ease;
+    }
+
+    .nav-links a:hover { color: #fff; }
+    .nav-links a:hover::after { transform: scaleX(1); transform-origin: left; }
+
+    .nav-actions { display: flex; align-items: center; gap: 8px; }
+    .menu-btn {
+      display: none;
+      width: 46px;
+      height: 46px;
+      padding: 0;
+      border: 1px solid var(--line);
+      border-radius: 14px;
+      color: #fff;
+      background: rgba(255,255,255,.035);
+      cursor: pointer;
+    }
+
+    .menu-btn span,
+    .menu-btn::before,
+    .menu-btn::after {
+      content: "";
+      display: block;
+      width: 20px;
+      height: 2px;
+      margin: 4px auto;
+      border-radius: 999px;
+      background: currentColor;
+      transition: transform .2s ease, opacity .2s ease;
+    }
+
+    .menu-btn.active span { opacity: 0; }
+    .menu-btn.active::before { transform: translateY(6px) rotate(45deg); }
+    .menu-btn.active::after { transform: translateY(-6px) rotate(-45deg); }
+
+    .btn {
+      min-height: 48px;
+      padding: 0 21px;
+      display: inline-flex;
+      align-items: center;
+      justify-content: center;
+      gap: 10px;
+      border: 1px solid transparent;
+      border-radius: 15px;
+      font-size: 13px;
+      font-weight: 800;
+      line-height: 1;
+      text-decoration: none;
+      cursor: pointer;
+      transition: transform .2s ease, border-color .2s ease, background .2s ease, box-shadow .2s ease;
+    }
+
+    .btn:hover { transform: translateY(-2px); }
+    .btn-primary {
+      color: #071020;
+      background: linear-gradient(135deg, #8af1ff 0%, #6f9cff 52%, #9b7dff 100%);
+      box-shadow: 0 13px 34px rgba(93, 140, 255, .22), inset 0 1px 0 rgba(255,255,255,.55);
+    }
+    .btn-primary:hover { box-shadow: 0 18px 42px rgba(93, 140, 255, .32); }
+    .btn-secondary {
+      color: #e8ecff;
+      border-color: var(--line-strong);
+      background: rgba(12, 18, 38, .58);
+    }
+    .btn-secondary:hover { border-color: rgba(102, 232, 255, .6); background: rgba(16, 25, 50, .85); }
+    .btn-small { min-height: 46px; padding-inline: 18px; }
+
+    main { position: relative; }
+    .hero {
+      min-height: 890px;
+      padding: 164px 0 78px;
+      display: flex;
+      align-items: center;
+      position: relative;
+      overflow: hidden;
+    }
+
+    .hero-orb {
+      position: absolute;
+      width: 740px;
+      height: 740px;
+      right: -180px;
+      top: 90px;
+      z-index: -1;
+      border-radius: 50%;
+      background:
+        radial-gradient(circle at center, rgba(93,140,255,.16) 0 16%, transparent 17%),
+        repeating-radial-gradient(circle at center, transparent 0 58px, rgba(126,160,255,.075) 59px 60px),
+        conic-gradient(from 90deg, transparent 0 22%, rgba(102,232,255,.12) 28%, transparent 36% 63%, rgba(155,125,255,.12) 72%, transparent 80%);
+      filter: drop-shadow(0 0 90px rgba(93, 140, 255, .14));
+      animation: orbit 26s linear infinite;
+    }
+
+    .hero-orb::before,
+    .hero-orb::after {
+      content: "";
+      position: absolute;
+      border-radius: 50%;
+      inset: 13%;
+      border: 1px dashed rgba(121, 157, 255, .22);
+    }
+    .hero-orb::after {
+      inset: 30%;
+      border-style: solid;
+      border-color: rgba(102, 232, 255, .16);
+      box-shadow: 0 0 70px rgba(102,232,255,.1) inset;
+    }
+    @keyframes orbit { to { transform: rotate(360deg); } }
+
+    .hero-grid {
+      display: grid;
+      grid-template-columns: minmax(0, 1.08fr) minmax(390px, .92fr);
+      gap: clamp(50px, 7vw, 100px);
+      align-items: center;
+    }
+
+    .eyebrow {
+      width: fit-content;
+      margin-bottom: 24px;
+      padding: 9px 13px;
+      display: inline-flex;
+      align-items: center;
+      gap: 9px;
+      border: 1px solid rgba(102,232,255,.2);
+      border-radius: 999px;
+      color: #bfefff;
+      background: rgba(102,232,255,.055);
+      font-size: 10px;
+      font-weight: 800;
+      letter-spacing: .17em;
+      text-transform: uppercase;
+    }
+
+    .eyebrow-dot {
+      width: 7px;
+      height: 7px;
+      border-radius: 50%;
+      background: var(--success);
+      box-shadow: 0 0 0 5px rgba(101,226,181,.08), 0 0 16px rgba(101,226,181,.65);
+    }
+
+    h1, h2, h3, p { margin-top: 0; }
+    h1 {
+      max-width: 790px;
+      margin-bottom: 24px;
+      font-family: "Unbounded", sans-serif;
+      font-size: clamp(47px, 6.4vw, 88px);
+      font-weight: 600;
+      line-height: .99;
+      letter-spacing: -.055em;
+    }
+
+    .gradient-text {
+      color: transparent;
+      background: linear-gradient(112deg, #fff 0%, #8deeff 28%, #6d9bff 65%, #ae91ff 100%);
+      -webkit-background-clip: text;
+      background-clip: text;
+      filter: drop-shadow(0 8px 42px rgba(93,140,255,.16));
+    }
+
+    .hero-lead {
+      max-width: 690px;
+      margin-bottom: 34px;
+      color: #aeb8d0;
+      font-size: clamp(17px, 2vw, 21px);
+      line-height: 1.65;
+    }
+
+    .hero-lead strong { color: #fff; font-weight: 700; }
+    .hero-cta { display: flex; flex-wrap: wrap; gap: 12px; }
+
+    .hero-notes {
+      margin-top: 30px;
+      display: flex;
+      flex-wrap: wrap;
+      gap: 12px 22px;
+      color: #8e99b4;
+      font-size: 12px;
+    }
+
+    .hero-note { display: flex; align-items: center; gap: 8px; }
+    .hero-note svg { width: 16px; height: 16px; color: var(--cyan); }
+
+    .system-card {
+      position: relative;
+      border: 1px solid rgba(130, 161, 255, .22);
+      border-radius: 32px;
+      background: linear-gradient(155deg, rgba(18, 26, 53, .88), rgba(7, 12, 28, .78));
+      box-shadow: var(--shadow), inset 0 1px 0 rgba(255,255,255,.06);
+      overflow: hidden;
+      backdrop-filter: blur(16px);
+      transform: perspective(1200px) rotateY(-4deg) rotateX(2deg);
+      transition: transform .25s ease;
+    }
+
+    .system-card::before {
+      content: "";
+      position: absolute;
+      inset: 0;
+      pointer-events: none;
+      background:
+        radial-gradient(circle at var(--mx, 80%) var(--my, 20%), rgba(102,232,255,.14), transparent 26%),
+        linear-gradient(120deg, transparent 0 42%, rgba(255,255,255,.04) 50%, transparent 58%);
+    }
+
+    .system-top {
+      padding: 18px 20px;
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+      border-bottom: 1px solid var(--line);
+      background: rgba(255,255,255,.018);
+    }
+
+    .window-dots { display: flex; gap: 7px; }
+    .window-dots i { width: 7px; height: 7px; display: block; border-radius: 50%; background: #303a57; }
+    .window-dots i:first-child { background: #5d8cff; }
+    .system-label { color: #77839f; font-size: 9px; font-weight: 800; letter-spacing: .17em; text-transform: uppercase; }
+
+    .system-main { padding: 28px; }
+    .system-brand {
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+      gap: 18px;
+      margin-bottom: 26px;
+    }
+
+    .system-brand-left {
+      display: flex;
+      align-items: center;
+      gap: 13px;
+      min-width: 0;
+    }
+
+    .system-logo {
+      width: 56px;
+      height: 56px;
+      flex: 0 0 auto;
+      object-fit: cover;
+      border-radius: 16px;
+      border: 1px solid rgba(53, 104, 255, .28);
+      box-shadow: 0 8px 28px rgba(0, 68, 255, .2);
+    }
+
+    .system-brand h3 {
+      margin: 0;
+      font-family: "Unbounded", sans-serif;
+      font-size: 20px;
+      font-weight: 600;
+    }
+    .system-brand p { margin: 5px 0 0; color: #7f8ba7; font-size: 11px; }
+    .status-chip {
+      flex: 0 0 auto;
+      padding: 8px 10px;
+      border: 1px solid rgba(101,226,181,.22);
+      border-radius: 999px;
+      color: #8ef1cf;
+      background: rgba(101,226,181,.055);
+      font-size: 9px;
+      font-weight: 800;
+      letter-spacing: .11em;
+      text-transform: uppercase;
+    }
+
+    .terminal {
+      min-height: 225px;
+      padding: 20px;
+      border: 1px solid rgba(117, 151, 255, .14);
+      border-radius: 20px;
+      background: rgba(2, 6, 17, .74);
+      color: #a8b7d6;
+      font: 500 12px/1.9 "SFMono-Regular", Consolas, "Liberation Mono", monospace;
+      overflow: hidden;
+    }
+
+    .terminal-line { opacity: 0; transform: translateY(5px); animation: lineIn .35s ease forwards; }
+    .terminal-line:nth-child(2) { animation-delay: .28s; }
+    .terminal-line:nth-child(3) { animation-delay: .56s; }
+    .terminal-line:nth-child(4) { animation-delay: .84s; }
+    .terminal-line:nth-child(5) { animation-delay: 1.12s; }
+    .terminal-line:nth-child(6) { animation-delay: 1.4s; }
+    @keyframes lineIn { to { opacity: 1; transform: none; } }
+    .terminal .cmd { color: #75e9ff; }
+    .terminal .ok { color: #72e6b8; }
+    .terminal .value { color: #9e8cff; }
+    .terminal .cursor { display: inline-block; width: 7px; height: 13px; vertical-align: -2px; background: #7fefff; animation: blink 1s steps(1) infinite; }
+    @keyframes blink { 50% { opacity: 0; } }
+
+    .system-footer {
+      padding: 18px 28px 24px;
+      display: grid;
+      grid-template-columns: repeat(3, 1fr);
+      gap: 10px;
+    }
+
+    .metric {
+      padding: 14px;
+      border: 1px solid rgba(130,161,255,.12);
+      border-radius: 16px;
+      background: rgba(255,255,255,.025);
+    }
+    .metric b { display: block; margin-bottom: 4px; color: #dce5ff; font-size: 12px; }
+    .metric span { color: #77829c; font-size: 9px; letter-spacing: .08em; text-transform: uppercase; }
+
+    .trusted-line {
+      padding: 18px 0 0;
+      display: flex;
+      align-items: center;
+      gap: 24px;
+      color: #66728d;
+      font-size: 10px;
+      font-weight: 800;
+      letter-spacing: .14em;
+      text-transform: uppercase;
+    }
+    .trusted-line::before, .trusted-line::after { content: ""; height: 1px; flex: 1; background: linear-gradient(90deg, transparent, var(--line), transparent); }
+
+    section { position: relative; }
+    .section { padding: 110px 0; }
+    .section-soft {
+      border-top: 1px solid rgba(126, 154, 235, .08);
+      border-bottom: 1px solid rgba(126, 154, 235, .08);
+      background: linear-gradient(180deg, rgba(11,16,34,.56), rgba(5,8,22,.18));
+    }
+
+    .section-head {
+      max-width: 780px;
+      margin-bottom: 48px;
+    }
+    .kicker {
+      margin-bottom: 16px;
+      color: var(--cyan);
+      font-size: 11px;
+      font-weight: 800;
+      letter-spacing: .18em;
+      text-transform: uppercase;
+    }
+    h2 {
+      margin-bottom: 18px;
+      font-family: "Unbounded", sans-serif;
+      font-size: clamp(34px, 4.3vw, 58px);
+      font-weight: 600;
+      line-height: 1.08;
+      letter-spacing: -.045em;
+    }
+    .section-head p {
+      margin-bottom: 0;
+      color: var(--muted);
+      font-size: 17px;
+      line-height: 1.7;
+    }
+
+    .service-grid {
+      display: grid;
+      grid-template-columns: repeat(12, 1fr);
+      gap: 16px;
+    }
+
+    .service-card {
+      min-height: 286px;
+      padding: 27px;
+      display: flex;
+      flex-direction: column;
+      border: 1px solid var(--line);
+      border-radius: var(--radius);
+      background:
+        radial-gradient(circle at 100% 0, rgba(93,140,255,.10), transparent 45%),
+        var(--surface);
+      box-shadow: inset 0 1px 0 rgba(255,255,255,.035);
+      overflow: hidden;
+      transition: transform .28s ease, border-color .28s ease, background .28s ease;
+      backdrop-filter: blur(12px);
+    }
+
+    .service-card:hover {
+      transform: translateY(-7px);
+      border-color: rgba(102,232,255,.35);
+      background:
+        radial-gradient(circle at 100% 0, rgba(102,232,255,.14), transparent 47%),
+        rgba(18, 26, 52, .82);
+    }
+
+    .service-card.wide { grid-column: span 7; }
+    .service-card.medium { grid-column: span 5; }
+    .service-card.third { grid-column: span 4; }
+
+    .service-icon {
+      width: 48px;
+      height: 48px;
+      margin-bottom: 42px;
+      display: grid;
+      place-items: center;
+      border: 1px solid rgba(102,232,255,.18);
+      border-radius: 15px;
+      color: #9eeeff;
+      background: rgba(102,232,255,.055);
+      box-shadow: 0 10px 30px rgba(102,232,255,.06);
+    }
+    .service-icon svg { width: 23px; height: 23px; }
+    .service-card h3 { margin-bottom: 12px; font-size: 21px; }
+    .service-card p { margin-bottom: 22px; color: #929db6; font-size: 14px; line-height: 1.65; }
+    .tags { margin-top: auto; display: flex; flex-wrap: wrap; gap: 7px; }
+    .tag {
+      padding: 7px 9px;
+      border: 1px solid rgba(129,153,222,.12);
+      border-radius: 9px;
+      color: #8591ad;
+      background: rgba(255,255,255,.018);
+      font-size: 9px;
+      font-weight: 800;
+      letter-spacing: .07em;
+      text-transform: uppercase;
+    }
+
+    .solutions-layout {
+      display: grid;
+      grid-template-columns: .9fr 1.1fr;
+      gap: clamp(40px, 7vw, 90px);
+      align-items: start;
+    }
+
+    .sticky-copy { position: sticky; top: 130px; }
+    .sticky-copy p { color: var(--muted); font-size: 17px; line-height: 1.72; }
+    .solution-list { display: grid; gap: 12px; }
+    .solution-item {
+      position: relative;
+      padding: 25px 25px 25px 76px;
+      border: 1px solid var(--line);
+      border-radius: 22px;
+      background: rgba(12,18,38,.62);
+      transition: transform .25s ease, border-color .25s ease;
+    }
+    .solution-item:hover { transform: translateX(7px); border-color: rgba(117,155,255,.34); }
+    .solution-number {
+      position: absolute;
+      left: 22px;
+      top: 25px;
+      color: #6e9aff;
+      font-family: "Unbounded", sans-serif;
+      font-size: 13px;
+    }
+    .solution-item h3 { margin-bottom: 8px; font-size: 17px; }
+    .solution-item p { margin: 0; color: #8792ab; font-size: 13px; line-height: 1.6; }
+
+    .process-grid {
+      counter-reset: step;
+      display: grid;
+      grid-template-columns: repeat(5, 1fr);
+      gap: 10px;
+    }
+    .step {
+      min-height: 260px;
+      padding: 24px 20px;
+      position: relative;
+      border: 1px solid var(--line);
+      border-radius: 23px;
+      background: linear-gradient(160deg, rgba(18,25,49,.76), rgba(8,12,28,.72));
+      overflow: hidden;
+    }
+    .step::before {
+      counter-increment: step;
+      content: "0" counter(step);
+      display: block;
+      margin-bottom: 54px;
+      color: #658eea;
+      font-family: "Unbounded", sans-serif;
+      font-size: 12px;
+      font-weight: 600;
+    }
+    .step::after {
+      content: "";
+      position: absolute;
+      width: 130px;
+      height: 130px;
+      right: -75px;
+      top: -75px;
+      border: 1px solid rgba(102,232,255,.1);
+      border-radius: 50%;
+      box-shadow: 0 0 0 22px rgba(93,140,255,.025), 0 0 0 45px rgba(93,140,255,.015);
+    }
+    .step h3 { margin-bottom: 10px; font-size: 16px; }
+    .step p { margin: 0; color: #818da6; font-size: 12px; line-height: 1.65; }
+
+    .stack-panel {
+      padding: 36px;
+      border: 1px solid var(--line);
+      border-radius: 30px;
+      background: linear-gradient(155deg, rgba(16,23,47,.82), rgba(7,11,27,.74));
+      box-shadow: var(--shadow);
+    }
+    .stack-row {
+      padding: 20px 0;
+      display: grid;
+      grid-template-columns: 180px 1fr;
+      gap: 28px;
+      border-bottom: 1px solid rgba(139,162,232,.09);
+    }
+    .stack-row:first-child { padding-top: 0; }
+    .stack-row:last-child { padding-bottom: 0; border-bottom: 0; }
+    .stack-title { color: #7f8ba5; font-size: 10px; font-weight: 800; letter-spacing: .16em; text-transform: uppercase; }
+    .stack-tags { display: flex; flex-wrap: wrap; gap: 8px; }
+    .stack-chip {
+      padding: 9px 12px;
+      border: 1px solid rgba(127,158,247,.14);
+      border-radius: 11px;
+      color: #cbd4e9;
+      background: rgba(255,255,255,.025);
+      font-size: 12px;
+      font-weight: 600;
+    }
+
+    .value-grid {
+      display: grid;
+      grid-template-columns: repeat(3, 1fr);
+      gap: 16px;
+    }
+    .value-card {
+      padding: 28px;
+      border: 1px solid var(--line);
+      border-radius: 25px;
+      background: rgba(12,18,38,.6);
+    }
+    .value-card span {
+      display: block;
+      margin-bottom: 28px;
+      color: var(--cyan);
+      font-family: "Unbounded", sans-serif;
+      font-size: 12px;
+    }
+    .value-card h3 { margin-bottom: 10px; font-size: 18px; }
+    .value-card p { margin: 0; color: #8792aa; font-size: 13px; line-height: 1.65; }
+
+    .contact-section { padding: 110px 0 50px; }
+    .contact-shell {
+      position: relative;
+      padding: clamp(30px, 5vw, 66px);
+      display: grid;
+      grid-template-columns: .9fr 1.1fr;
+      gap: clamp(36px, 6vw, 70px);
+      border: 1px solid rgba(117, 152, 255, .24);
+      border-radius: 38px;
+      background:
+        radial-gradient(circle at 0 0, rgba(102,232,255,.12), transparent 36%),
+        radial-gradient(circle at 100% 100%, rgba(155,125,255,.14), transparent 36%),
+        linear-gradient(145deg, rgba(18,26,52,.90), rgba(7,12,27,.91));
+      box-shadow: 0 40px 100px rgba(0,0,0,.48);
+      overflow: hidden;
+    }
+    .contact-shell::after {
+      content: "846";
+      position: absolute;
+      right: -18px;
+      bottom: -54px;
+      color: rgba(255,255,255,.018);
+      font-family: "Unbounded", sans-serif;
+      font-size: 190px;
+      font-weight: 700;
+      pointer-events: none;
+    }
+    .contact-copy { position: relative; z-index: 1; }
+    .contact-copy h2 { font-size: clamp(36px, 4vw, 54px); }
+    .contact-copy > p { color: #9aa5bd; font-size: 15px; line-height: 1.7; }
+    .contact-links { margin-top: 32px; display: grid; gap: 10px; }
+    .contact-link {
+      padding: 15px 17px;
+      display: flex;
+      align-items: center;
+      gap: 13px;
+      border: 1px solid rgba(139,162,232,.12);
+      border-radius: 15px;
+      color: #dbe3f8;
+      background: rgba(255,255,255,.025);
+      font-size: 13px;
+      font-weight: 700;
+      text-decoration: none;
+      transition: border-color .2s ease, background .2s ease, transform .2s ease;
+    }
+    .contact-link:hover { transform: translateX(4px); border-color: rgba(102,232,255,.3); background: rgba(102,232,255,.045); }
+    .contact-link svg { width: 19px; height: 19px; color: #7feaff; flex: 0 0 auto; }
+    .contact-link small { margin-left: auto; color: #67738f; font-size: 9px; letter-spacing: .11em; text-transform: uppercase; }
+
+    .brief-form {
+      position: relative;
+      z-index: 1;
+      padding: 26px;
+      border: 1px solid rgba(137,160,233,.14);
+      border-radius: 25px;
+      background: rgba(3,7,18,.53);
+      backdrop-filter: blur(14px);
+    }
+    .form-title { margin-bottom: 20px; font-size: 16px; }
+    .field { margin-bottom: 13px; }
+    .field label { display: block; margin: 0 0 7px 2px; color: #7e89a3; font-size: 10px; font-weight: 800; letter-spacing: .1em; text-transform: uppercase; }
+    .field input, .field textarea, .field select {
+      width: 100%;
+      border: 1px solid rgba(131,155,228,.14);
+      border-radius: 13px;
+      outline: none;
+      color: #eef2ff;
+      background: rgba(255,255,255,.035);
+      transition: border-color .2s ease, box-shadow .2s ease, background .2s ease;
+    }
+    .field input, .field select { height: 48px; padding: 0 15px; }
+    .field textarea { min-height: 112px; padding: 13px 15px; resize: vertical; }
+    .field select { appearance: none; color-scheme: dark; }
+    .field input::placeholder, .field textarea::placeholder { color: #515d77; }
+    .field input:focus, .field textarea:focus, .field select:focus {
+      border-color: rgba(102,232,255,.42);
+      background: rgba(102,232,255,.035);
+      box-shadow: 0 0 0 4px rgba(102,232,255,.045);
+    }
+    .form-actions { margin-top: 18px; display: flex; gap: 9px; }
+    .form-actions .btn { flex: 1; }
+    .form-note { min-height: 18px; margin: 12px 0 0; color: #7f8ba5; font-size: 10px; line-height: 1.5; }
+    .form-note.success { color: #7ce8bd; }
+    .form-note.error { color: #ff9da9; }
+
+    footer { padding: 26px 0 34px; }
+    .footer-row {
+      padding-top: 24px;
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+      gap: 20px;
+      border-top: 1px solid rgba(135,158,226,.09);
+      color: #66718a;
+      font-size: 11px;
+    }
+    .footer-row a { text-decoration: none; }
+    .footer-row a:hover { color: #b9c5dd; }
+
+    .reveal {
+      opacity: 0;
+      transform: translateY(24px);
+      transition: opacity .65s ease, transform .65s cubic-bezier(.2,.7,.2,1);
+    }
+    .reveal.visible { opacity: 1; transform: none; }
+
+    .toast {
+      position: fixed;
+      left: 50%;
+      bottom: 26px;
+      z-index: 150;
+      padding: 12px 16px;
+      border: 1px solid rgba(101,226,181,.24);
+      border-radius: 13px;
+      color: #a8f4d8;
+      background: rgba(7,18,22,.88);
+      box-shadow: 0 16px 50px rgba(0,0,0,.4);
+      font-size: 12px;
+      transform: translate(-50%, 120px);
+      opacity: 0;
+      transition: .3s ease;
+      backdrop-filter: blur(14px);
+    }
+    .toast.show { transform: translate(-50%, 0); opacity: 1; }
+
+    @media (max-width: 1040px) {
+      .nav-links { display: none; }
+      .nav-links.open {
+        position: absolute;
+        top: 78px;
+        left: 20px;
+        right: 20px;
+        padding: 20px;
+        display: grid;
+        gap: 18px;
+        border: 1px solid var(--line);
+        border-radius: 20px;
+        background: rgba(7,11,26,.96);
+        box-shadow: var(--shadow);
+        backdrop-filter: blur(20px);
+      }
+      .menu-btn { display: block; }
+      .nav-actions .btn { display: none; }
+      .hero { min-height: auto; padding-top: 150px; }
+      .hero-grid { grid-template-columns: 1fr; }
+      .system-card { max-width: 680px; transform: none; }
+      .solutions-layout { grid-template-columns: 1fr; }
+      .sticky-copy { position: static; }
+      .process-grid { grid-template-columns: repeat(3, 1fr); }
+      .contact-shell { grid-template-columns: 1fr; }
+    }
+
+    @media (max-width: 780px) {
+      .container { width: min(calc(100% - 28px), var(--container)); }
+      .topbar { top: 10px; }
+      .nav { min-height: 64px; padding: 8px 9px 8px 14px; border-radius: 18px; }
+      .brand-mark { width: 43px; height: 43px; }
+      .brand-copy span { display: none; }
+      .hero { padding: 130px 0 62px; }
+      .hero-orb { width: 500px; height: 500px; right: -260px; top: 100px; opacity: .7; }
+      h1 { font-size: clamp(42px, 13vw, 70px); }
+      .hero-lead { font-size: 16px; }
+      .system-main { padding: 20px; }
+      .system-footer { padding: 14px 20px 20px; grid-template-columns: 1fr; }
+      .trusted-line { gap: 10px; font-size: 8px; }
+      .section { padding: 82px 0; }
+      .service-card.wide, .service-card.medium, .service-card.third { grid-column: span 12; }
+      .service-card { min-height: 250px; }
+      .service-icon { margin-bottom: 30px; }
+      .process-grid { grid-template-columns: 1fr 1fr; }
+      .step { min-height: 220px; }
+      .stack-panel { padding: 24px; }
+      .stack-row { grid-template-columns: 1fr; gap: 12px; }
+      .value-grid { grid-template-columns: 1fr; }
+      .contact-section { padding-top: 82px; }
+      .form-actions { flex-direction: column; }
+      .footer-row { align-items: flex-start; flex-direction: column; }
+    }
+
+    @media (max-width: 480px) {
+      .brand-copy strong { font-size: 13px; }
+      .hero-cta { display: grid; }
+      .hero-cta .btn { width: 100%; }
+      .hero-notes { display: grid; }
+      .system-brand { align-items: flex-start; flex-direction: column; }
+      .system-logo { width: 48px; height: 48px; }
+      .terminal { font-size: 10px; }
+      .process-grid { grid-template-columns: 1fr; }
+      .step { min-height: 190px; }
+      .step::before { margin-bottom: 36px; }
+      .contact-shell { padding: 25px 18px; border-radius: 28px; }
+      .brief-form { padding: 18px; }
+      .contact-link { align-items: flex-start; }
+      .contact-link small { display: none; }
+    }
+
+    @media (prefers-reduced-motion: reduce) {
+      html { scroll-behavior: auto; }
+      *, *::before, *::after { animation-duration: .01ms !important; animation-iteration-count: 1 !important; transition-duration: .01ms !important; }
+      .reveal { opacity: 1; transform: none; }
+    }
+
+    /* Portfolio */
+    .portfolio-grid { display: grid; grid-template-columns: repeat(3, minmax(0, 1fr)); gap: 20px; }
+    .portfolio-card { display: flex; flex-direction: column; min-width: 0; padding: 28px; border: 1px solid var(--line); border-radius: 24px; color: #fff; background: linear-gradient(145deg, rgba(18,26,53,.88), rgba(7,12,28,.78)); text-decoration: none; transition: border-color .2s ease, background .2s ease; }
+    .portfolio-card:hover { border-color: var(--cyan); background: rgba(30,48,78,.65); }
+    .portfolio-card:focus-visible { outline: 2px solid var(--cyan); outline-offset: 5px; }
+    .portfolio-top { display: flex; justify-content: space-between; align-items: center; margin-bottom: 30px; color: var(--cyan); font-size: 12px; letter-spacing: .12em; }
+    .portfolio-arrow { font-size: 24px; line-height: 1; }
+    .portfolio-card h3 { margin-bottom: 12px; font-size: 21px; line-height: 1.4; }
+    .portfolio-address { margin-bottom: 26px; color: #aeb8d0; font-size: 12px; line-height: 1.7; overflow-wrap: anywhere; }
+    .portfolio-open { margin-top: auto; color: #bfefff; font-size: 13px; font-weight: 700; }
+    @media (min-width: 1041px) { .nav-links { gap: clamp(12px, 1.5vw, 24px); } }
+    @media (max-width: 1040px) { .portfolio-grid { grid-template-columns: repeat(2, minmax(0, 1fr)); } }
+    @media (max-width: 640px) { .portfolio-grid { grid-template-columns: minmax(0, 1fr); gap: 14px; } .portfolio-card { padding: 24px; } }
+
+    /* Live website previews */
+    .portfolio-card { padding: 0; overflow: hidden; }
+    .portfolio-preview { position: relative; width: 100%; aspect-ratio: 16 / 11; overflow: hidden; background: #f0f2f5; border-bottom: 1px solid var(--line); isolation: isolate; }
+    .portfolio-preview iframe { display: block; width: 400%; height: 400%; border: 0; transform: scale(.25); transform-origin: top left; pointer-events: none; background: #fff; }
+    .portfolio-preview-cover { position: absolute; inset: 0; display: flex; align-items: center; justify-content: center; gap: 12px; color: #fff; font-size: 15px; font-weight: 800; background: rgba(6,12,28,.65); opacity: 0; transition: opacity .2s ease; }
+    .portfolio-card:hover .portfolio-preview-cover, .portfolio-card:focus-visible .portfolio-preview-cover { opacity: 1; }
+    .portfolio-details { display: flex; flex-direction: column; flex: 1; padding: 24px; }
+    .portfolio-details .portfolio-top { margin-bottom: 16px; }
+    .portfolio-details h3 { margin-bottom: 20px; }
+    @media (max-width: 640px) { .portfolio-card { padding: 0; } }
+  </style>
+</head>
+<body>
+  <header class="topbar">
+    <div class="container nav">
+      <a href="#top" class="brand" aria-label="846 Digital — на главную">
+        <img class="brand-mark" src="assets/logo-mark.png" alt="Логотип 846 Digital">
+        <span class="brand-copy"><strong>846 Digital</strong><span>Code · Automate · Innovate</span></span>
+      </a>
+
+      <nav class="nav-links" id="navLinks" aria-label="Основная навигация">
+        <a href="#services">Услуги</a>
+        <a href="#portfolio">Портфолио</a>
+        <a href="#solutions">Решения</a>
+        <a href="#process">Процесс</a>
+        <a href="#stack">Технологии</a>
+        <a href="#contacts">Контакты</a>
+      </nav>
+
+      <div class="nav-actions">
+        <a class="btn btn-primary btn-small" href="#contacts">Обсудить проект</a>
+        <button class="menu-btn" id="menuBtn" type="button" aria-label="Открыть меню" aria-expanded="false"><span></span></button>
+      </div>
+    </div>
+  </header>
+
+  <main id="top">
+    <section class="hero">
+      <div class="hero-orb" aria-hidden="true"></div>
+      <div class="container">
+        <div class="hero-grid">
+          <div class="hero-copy">
+            <div class="eyebrow"><span class="eyebrow-dot"></span> Команда разработки полного цикла</div>
+            <h1>Создаём <span class="gradient-text">цифровые продукты</span> под ключ</h1>
+            <p class="hero-lead">Разрабатываем программы, веб-приложения, AI-системы, ботов и автоматизацию. <strong>Берём на себя весь путь:</strong> от анализа задачи и архитектуры до запуска и развития продукта.</p>
+            <div class="hero-cta">
+              <a class="btn btn-primary" href="#contacts">
+                Рассчитать проект
+                <svg width="17" height="17" viewBox="0 0 24 24" fill="none" aria-hidden="true"><path d="M5 12h14m-5-5 5 5-5 5" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"/></svg>
+              </a>
+              <a class="btn btn-secondary" href="#services">Посмотреть возможности</a>
+            </div>
+            <div class="hero-notes">
+              <span class="hero-note"><svg viewBox="0 0 24 24" fill="none"><path d="m5 12 4 4L19 6" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"/></svg> Работаем командой</span>
+              <span class="hero-note"><svg viewBox="0 0 24 24" fill="none"><path d="m5 12 4 4L19 6" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"/></svg> Фиксируем этапы и результат</span>
+              <span class="hero-note"><svg viewBox="0 0 24 24" fill="none"><path d="m5 12 4 4L19 6" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"/></svg> Передаём исходный код</span>
+            </div>
+          </div>
+
+          <div class="system-card" id="systemCard">
+            <div class="system-top">
+              <div class="window-dots"><i></i><i></i><i></i></div>
+              <span class="system-label">846 / product system</span>
+            </div>
+            <div class="system-main">
+              <div class="system-brand">
+                <div class="system-brand-left">
+                  <img class="system-logo" src="assets/logo-mark.png" alt="Логотип 846 Digital">
+                  <div><h3>Project Engine</h3><p>Разработка решения под бизнес-задачу</p></div>
+                </div>
+                <span class="status-chip">System online</span>
+              </div>
+              <div class="terminal" aria-label="Демонстрация процесса разработки">
+                <div class="terminal-line"><span class="cmd">$</span> initialize business_task</div>
+                <div class="terminal-line">→ analysis: <span class="ok">completed</span></div>
+                <div class="terminal-line">→ architecture: <span class="value">designed</span></div>
+                <div class="terminal-line">→ development: <span class="ok">in progress</span></div>
+                <div class="terminal-line">→ integrations: API + AI + data</div>
+                <div class="terminal-line"><span class="cmd">$</span> launch product <span class="cursor"></span></div>
+              </div>
+            </div>
+            <div class="system-footer">
+              <div class="metric"><b>Frontend</b><span>Интерфейс</span></div>
+              <div class="metric"><b>Backend</b><span>Логика и данные</span></div>
+              <div class="metric"><b>AI & API</b><span>Интеграции</span></div>
+            </div>
+          </div>
+        </div>
+        <div class="trusted-line">Программирование · искусственный интеллект · автоматизация</div>
+      </div>
+    </section>
+
+    <section class="section section-soft" id="services">
+      <div class="container">
+        <div class="section-head reveal">
+          <div class="kicker">Что мы разрабатываем</div>
+          <h2>Закрываем техническую задачу целиком</h2>
+          <p>Подбираем архитектуру и стек под задачу, а не под шаблон. Создаём новые продукты, интегрируем существующие системы и автоматизируем процессы.</p>
+        </div>
+
+        <div class="service-grid">
+          <article class="service-card wide reveal">
+            <div class="service-icon"><svg viewBox="0 0 24 24" fill="none"><path d="M8 9 5 12l3 3m8-6 3 3-3 3m-2-9-4 12" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round"/></svg></div>
+            <h3>Разработка программ и веб-приложений</h3>
+            <p>Корпоративные сервисы, личные кабинеты, панели управления, внутренние системы, SaaS-продукты и нестандартное ПО.</p>
+            <div class="tags"><span class="tag">Fullstack</span><span class="tag">Frontend</span><span class="tag">Backend</span><span class="tag">Web apps</span></div>
+          </article>
+
+          <article class="service-card medium reveal">
+            <div class="service-icon"><svg viewBox="0 0 24 24" fill="none"><path d="M12 3a4 4 0 0 0-4 4v1a3 3 0 0 0-2 5.2A3.5 3.5 0 0 0 9.5 19H12m0-16a4 4 0 0 1 4 4v1a3 3 0 0 1 2 5.2A3.5 3.5 0 0 1 14.5 19H12m0-16v16m-3-8h3m3-3h-3m3 7h-3" stroke="currentColor" stroke-width="1.7" stroke-linecap="round"/></svg></div>
+            <h3>Внедрение искусственного интеллекта</h3>
+            <p>AI-ассистенты, RAG, анализ документов, генерация контента, распознавание данных и локальные LLM-системы.</p>
+            <div class="tags"><span class="tag">LLM</span><span class="tag">RAG</span><span class="tag">AI agents</span></div>
+          </article>
+
+          <article class="service-card third reveal">
+            <div class="service-icon"><svg viewBox="0 0 24 24" fill="none"><path d="M8 6h8M7 10h10M9 14h6m-9 5 3-3h9a3 3 0 0 0 3-3V6a3 3 0 0 0-3-3H6a3 3 0 0 0-3 3v7a3 3 0 0 0 3 3v3Z" stroke="currentColor" stroke-width="1.7" stroke-linecap="round" stroke-linejoin="round"/></svg></div>
+            <h3>Боты и ассистенты</h3>
+            <p>Telegram-боты, чат-боты для поддержки и продаж, внутренние помощники и интерфейсы для работы с данными.</p>
+            <div class="tags"><span class="tag">Telegram</span><span class="tag">Support</span></div>
+          </article>
+
+          <article class="service-card third reveal">
+            <div class="service-icon"><svg viewBox="0 0 24 24" fill="none"><path d="M12 3v4m0 10v4M3 12h4m10 0h4M5.6 5.6l2.8 2.8m7.2 7.2 2.8 2.8m0-12.8-2.8 2.8m-7.2 7.2-2.8 2.8M12 8a4 4 0 1 0 0 8 4 4 0 0 0 0-8Z" stroke="currentColor" stroke-width="1.6" stroke-linecap="round"/></svg></div>
+            <h3>Автоматизация процессов</h3>
+            <p>Убираем ручные операции, связываем системы, создаём сценарии обработки данных, документов и бизнес-событий.</p>
+            <div class="tags"><span class="tag">Workflows</span><span class="tag">API</span></div>
+          </article>
+
+          <article class="service-card third reveal">
+            <div class="service-icon"><svg viewBox="0 0 24 24" fill="none"><path d="M4 5h16v4H4zm0 10h16v4H4zM8 9v6m8-6v6" stroke="currentColor" stroke-width="1.7" stroke-linecap="round" stroke-linejoin="round"/></svg></div>
+            <h3>Парсинг и работа с данными</h3>
+            <p>Сбор информации, обработка файлов, преобразование данных, аналитика, отчёты и интеграция с базами данных.</p>
+            <div class="tags"><span class="tag">Parsing</span><span class="tag">SQL</span><span class="tag">ETL</span></div>
+          </article>
+
+          <article class="service-card wide reveal">
+            <div class="service-icon"><svg viewBox="0 0 24 24" fill="none"><path d="M8 12h8m-4-4v8M5 5h4v4H5zm10 0h4v4h-4zM5 15h4v4H5zm10 0h4v4h-4z" stroke="currentColor" stroke-width="1.6" stroke-linecap="round" stroke-linejoin="round"/></svg></div>
+            <h3>Интеграции, API и доработка систем</h3>
+            <p>Подключаем внешние сервисы, CRM, ERP, платёжные решения и AI API. Развиваем существующий код без необходимости начинать проект заново.</p>
+            <div class="tags"><span class="tag">REST API</span><span class="tag">Webhooks</span><span class="tag">CRM / ERP</span><span class="tag">Support</span></div>
+          </article>
+
+          <article class="service-card medium reveal">
+            <div class="service-icon"><svg viewBox="0 0 24 24" fill="none"><path d="M12 3 4 7v10l8 4 8-4V7l-8-4Zm0 0v18M4 7l8 4 8-4" stroke="currentColor" stroke-width="1.7" stroke-linejoin="round"/></svg></div>
+            <h3>Проектирование и запуск под ключ</h3>
+            <p>Формируем требования, проектируем архитектуру, реализуем интерфейс и серверную часть, тестируем и размещаем продукт.</p>
+            <div class="tags"><span class="tag">Discovery</span><span class="tag">Architecture</span><span class="tag">Deploy</span></div>
+          </article>
+        </div>
+      </div>
+    </section>
+
+    <section class="section" id="portfolio" aria-labelledby="portfolio-title">
+      <div class="container">
+        <div class="section-head">
+          <div class="kicker">Наши проекты</div>
+          <h2 id="portfolio-title">Портфолио</h2>
+          <p>Сайты и веб-проекты: от бизнес-страниц до свадебных приглашений и интерактивных инструментов. Каждый проект открывается в новой вкладке.</p>
+        </div>
+        <div class="portfolio-grid">
+          <a class="portfolio-card" href="https://846digital.github.io/Vkysno_Radom/site/index.html" target="_blank" rel="noopener noreferrer" aria-label="Вкусно рядом — открыть проект в новой вкладке">
+            <div class="portfolio-preview" aria-hidden="true">
+              <iframe src="https://846digital.github.io/Vkysno_Radom/site/index.html" title="Предпросмотр: Вкусно рядом" loading="lazy" tabindex="-1" sandbox="allow-scripts allow-same-origin" referrerpolicy="no-referrer"></iframe>
+              <span class="portfolio-preview-cover">Посмотреть сайт <span>↗</span></span>
+            </div>
+            <div class="portfolio-details">
+            <div class="portfolio-top"><span>ПРОЕКТ 01</span><span class="portfolio-arrow" aria-hidden="true">↗</span></div>
+            <h3>Вкусно рядом</h3>
+            <span class="portfolio-open">Открыть проект <span aria-hidden="true">↗</span></span>
+          </div>
+          </a>
+          <a class="portfolio-card" href="https://846digital.github.io/Torpedo/torpedo.html" target="_blank" rel="noopener noreferrer" aria-label="Торпедо — открыть проект в новой вкладке">
+            <div class="portfolio-preview" aria-hidden="true">
+              <iframe src="https://846digital.github.io/Torpedo/torpedo.html" title="Предпросмотр: Торпедо" loading="lazy" tabindex="-1" sandbox="allow-scripts allow-same-origin" referrerpolicy="no-referrer"></iframe>
+              <span class="portfolio-preview-cover">Посмотреть сайт <span>↗</span></span>
+            </div>
+            <div class="portfolio-details">
+            <div class="portfolio-top"><span>ПРОЕКТ 02</span><span class="portfolio-arrow" aria-hidden="true">↗</span></div>
+            <h3>Торпедо</h3>
+            <span class="portfolio-open">Открыть проект <span aria-hidden="true">↗</span></span>
+          </div>
+          </a>
+          <a class="portfolio-card" href="https://846digital.github.io/Galileo/galileo-samara.html" target="_blank" rel="noopener noreferrer" aria-label="Галилео · Самара — открыть проект в новой вкладке">
+            <div class="portfolio-preview" aria-hidden="true">
+              <iframe src="https://846digital.github.io/Galileo/galileo-samara.html" title="Предпросмотр: Галилео · Самара" loading="lazy" tabindex="-1" sandbox="allow-scripts allow-same-origin" referrerpolicy="no-referrer"></iframe>
+              <span class="portfolio-preview-cover">Посмотреть сайт <span>↗</span></span>
+            </div>
+            <div class="portfolio-details">
+            <div class="portfolio-top"><span>ПРОЕКТ 03</span><span class="portfolio-arrow" aria-hidden="true">↗</span></div>
+            <h3>Галилео · Самара</h3>
+            <span class="portfolio-open">Открыть проект <span aria-hidden="true">↗</span></span>
+          </div>
+          </a>
+          <a class="portfolio-card" href="https://846digital.github.io/" target="_blank" rel="noopener noreferrer" aria-label="846 Digital — открыть проект в новой вкладке">
+            <div class="portfolio-preview" aria-hidden="true">
+              <iframe src="https://846digital.github.io/" title="Предпросмотр: 846 Digital" loading="lazy" tabindex="-1" sandbox="allow-scripts allow-same-origin" referrerpolicy="no-referrer"></iframe>
+              <span class="portfolio-preview-cover">Посмотреть сайт <span>↗</span></span>
+            </div>
+            <div class="portfolio-details">
+            <div class="portfolio-top"><span>ПРОЕКТ 04</span><span class="portfolio-arrow" aria-hidden="true">↗</span></div>
+            <h3>846 Digital</h3>
+            <span class="portfolio-open">Открыть проект <span aria-hidden="true">↗</span></span>
+          </div>
+          </a>
+          <a class="portfolio-card" href="https://ch1st.gitverse.site/portfolio/" target="_blank" rel="noopener noreferrer" aria-label="Портфолио CH1ST — открыть проект в новой вкладке">
+            <div class="portfolio-preview" aria-hidden="true">
+              <iframe src="https://ch1st.gitverse.site/portfolio/" title="Предпросмотр: Портфолио CH1ST" loading="lazy" tabindex="-1" sandbox="allow-scripts allow-same-origin" referrerpolicy="no-referrer"></iframe>
+              <span class="portfolio-preview-cover">Посмотреть сайт <span>↗</span></span>
+            </div>
+            <div class="portfolio-details">
+            <div class="portfolio-top"><span>ПРОЕКТ 05</span><span class="portfolio-arrow" aria-hidden="true">↗</span></div>
+            <h3>Портфолио CH1ST</h3>
+            <span class="portfolio-open">Открыть проект <span aria-hidden="true">↗</span></span>
+          </div>
+          </a>
+          <a class="portfolio-card" href="https://846digital.github.io/Wed1/03-theatre/" target="_blank" rel="noopener noreferrer" aria-label="Свадебный сайт · Театр — открыть проект в новой вкладке">
+            <div class="portfolio-preview" aria-hidden="true">
+              <iframe src="https://846digital.github.io/Wed1/03-theatre/" title="Предпросмотр: Свадебный сайт · Театр" loading="lazy" tabindex="-1" sandbox="allow-scripts allow-same-origin" referrerpolicy="no-referrer"></iframe>
+              <span class="portfolio-preview-cover">Посмотреть сайт <span>↗</span></span>
+            </div>
+            <div class="portfolio-details">
+            <div class="portfolio-top"><span>ПРОЕКТ 06</span><span class="portfolio-arrow" aria-hidden="true">↗</span></div>
+            <h3>Свадебный сайт · Театр</h3>
+            <span class="portfolio-open">Открыть проект <span aria-hidden="true">↗</span></span>
+          </div>
+          </a>
+          <a class="portfolio-card" href="https://846digital.github.io/wed2/" target="_blank" rel="noopener noreferrer" aria-label="Свадебный сайт · 02 — открыть проект в новой вкладке">
+            <div class="portfolio-preview" aria-hidden="true">
+              <iframe src="https://846digital.github.io/wed2/" title="Предпросмотр: Свадебный сайт · 02" loading="lazy" tabindex="-1" sandbox="allow-scripts allow-same-origin" referrerpolicy="no-referrer"></iframe>
+              <span class="portfolio-preview-cover">Посмотреть сайт <span>↗</span></span>
+            </div>
+            <div class="portfolio-details">
+            <div class="portfolio-top"><span>ПРОЕКТ 07</span><span class="portfolio-arrow" aria-hidden="true">↗</span></div>
+            <h3>Свадебный сайт · 02</h3>
+            <span class="portfolio-open">Открыть проект <span aria-hidden="true">↗</span></span>
+          </div>
+          </a>
+          <a class="portfolio-card" href="https://846digital.github.io/wed3/" target="_blank" rel="noopener noreferrer" aria-label="Свадебный сайт · 03 — открыть проект в новой вкладке">
+            <div class="portfolio-preview" aria-hidden="true">
+              <iframe src="https://846digital.github.io/wed3/" title="Предпросмотр: Свадебный сайт · 03" loading="lazy" tabindex="-1" sandbox="allow-scripts allow-same-origin" referrerpolicy="no-referrer"></iframe>
+              <span class="portfolio-preview-cover">Посмотреть сайт <span>↗</span></span>
+            </div>
+            <div class="portfolio-details">
+            <div class="portfolio-top"><span>ПРОЕКТ 08</span><span class="portfolio-arrow" aria-hidden="true">↗</span></div>
+            <h3>Свадебный сайт · 03</h3>
+            <span class="portfolio-open">Открыть проект <span aria-hidden="true">↗</span></span>
+          </div>
+          </a>
+          <a class="portfolio-card" href="https://846digital.github.io/wed4/" target="_blank" rel="noopener noreferrer" aria-label="Свадебный сайт · 04 — открыть проект в новой вкладке">
+            <div class="portfolio-preview" aria-hidden="true">
+              <iframe src="https://846digital.github.io/wed4/" title="Предпросмотр: Свадебный сайт · 04" loading="lazy" tabindex="-1" sandbox="allow-scripts allow-same-origin" referrerpolicy="no-referrer"></iframe>
+              <span class="portfolio-preview-cover">Посмотреть сайт <span>↗</span></span>
+            </div>
+            <div class="portfolio-details">
+            <div class="portfolio-top"><span>ПРОЕКТ 09</span><span class="portfolio-arrow" aria-hidden="true">↗</span></div>
+            <h3>Свадебный сайт · 04</h3>
+            <span class="portfolio-open">Открыть проект <span aria-hidden="true">↗</span></span>
+          </div>
+          </a>
+          <a class="portfolio-card" href="https://846digital.github.io/maison/" target="_blank" rel="noopener noreferrer" aria-label="Maison — открыть проект в новой вкладке">
+            <div class="portfolio-preview" aria-hidden="true">
+              <iframe src="https://846digital.github.io/maison/" title="Предпросмотр: Maison" loading="lazy" tabindex="-1" sandbox="allow-scripts allow-same-origin" referrerpolicy="no-referrer"></iframe>
+              <span class="portfolio-preview-cover">Посмотреть сайт <span>↗</span></span>
+            </div>
+            <div class="portfolio-details">
+            <div class="portfolio-top"><span>ПРОЕКТ 10</span><span class="portfolio-arrow" aria-hidden="true">↗</span></div>
+            <h3>Maison</h3>
+            <span class="portfolio-open">Открыть проект <span aria-hidden="true">↗</span></span>
+          </div>
+          </a>
+          <a class="portfolio-card" href="https://846digital.github.io/oblachko/" target="_blank" rel="noopener noreferrer" aria-label="Облачко — открыть проект в новой вкладке">
+            <div class="portfolio-preview" aria-hidden="true">
+              <iframe src="https://846digital.github.io/oblachko/" title="Предпросмотр: Облачко" loading="lazy" tabindex="-1" sandbox="allow-scripts allow-same-origin" referrerpolicy="no-referrer"></iframe>
+              <span class="portfolio-preview-cover">Посмотреть сайт <span>↗</span></span>
+            </div>
+            <div class="portfolio-details">
+            <div class="portfolio-top"><span>ПРОЕКТ 11</span><span class="portfolio-arrow" aria-hidden="true">↗</span></div>
+            <h3>Облачко</h3>
+            <span class="portfolio-open">Открыть проект <span aria-hidden="true">↗</span></span>
+          </div>
+          </a>
+          <a class="portfolio-card" href="https://846digital.github.io/wedding_calculator" target="_blank" rel="noopener noreferrer" aria-label="Свадебный калькулятор — открыть проект в новой вкладке">
+            <div class="portfolio-preview" aria-hidden="true">
+              <iframe src="https://846digital.github.io/wedding_calculator" title="Предпросмотр: Свадебный калькулятор" loading="lazy" tabindex="-1" sandbox="allow-scripts allow-same-origin" referrerpolicy="no-referrer"></iframe>
+              <span class="portfolio-preview-cover">Посмотреть сайт <span>↗</span></span>
+            </div>
+            <div class="portfolio-details">
+            <div class="portfolio-top"><span>ПРОЕКТ 12</span><span class="portfolio-arrow" aria-hidden="true">↗</span></div>
+            <h3>Свадебный калькулятор</h3>
+            <span class="portfolio-open">Открыть проект <span aria-hidden="true">↗</span></span>
+          </div>
+          </a>
+        </div>
+      </div>
+    </section>
+
+    <section class="section" id="solutions">
+      <div class="container solutions-layout">
+        <div class="sticky-copy reveal">
+          <div class="kicker">Не просто код</div>
+          <h2>Разработка, которая приводит к результату</h2>
+          <p>Мы начинаем не с выбора технологии, а с понимания процесса, ограничений и цели. Поэтому итогом становится работающий инструмент, а не набор несвязанных функций.</p>
+          <a class="btn btn-secondary" href="#contacts">Описать задачу</a>
+        </div>
+
+        <div class="solution-list">
+          <article class="solution-item reveal"><span class="solution-number">01</span><h3>Создание нового продукта</h3><p>Проверяем идею, определяем минимально необходимый функционал и создаём основу, которую можно развивать.</p></article>
+          <article class="solution-item reveal"><span class="solution-number">02</span><h3>Автоматизация ручной работы</h3><p>Находим повторяющиеся операции и переводим их в управляемый цифровой процесс с контролем результата.</p></article>
+          <article class="solution-item reveal"><span class="solution-number">03</span><h3>Объединение нескольких систем</h3><p>Настраиваем обмен данными между сервисами, исключаем двойной ввод и синхронизируем бизнес-логику.</p></article>
+          <article class="solution-item reveal"><span class="solution-number">04</span><h3>Внедрение AI в существующий процесс</h3><p>Добавляем анализ, поиск, генерацию, классификацию или диалоговый интерфейс туда, где это даёт практическую пользу.</p></article>
+          <article class="solution-item reveal"><span class="solution-number">05</span><h3>Развитие существующего проекта</h3><p>Разбираемся в текущем коде, устраняем узкие места, добавляем функции и готовим систему к дальнейшему росту.</p></article>
+        </div>
+      </div>
+    </section>
+
+    <section class="section section-soft" id="process">
+      <div class="container">
+        <div class="section-head reveal">
+          <div class="kicker">Как проходит работа</div>
+          <h2>Прозрачный путь от задачи до запуска</h2>
+          <p>Делим проект на понятные этапы. Вы видите, что сделано, что происходит сейчас и какой результат будет следующим.</p>
+        </div>
+        <div class="process-grid">
+          <article class="step reveal"><h3>Погружение</h3><p>Разбираем задачу, пользователей, текущие процессы и ограничения.</p></article>
+          <article class="step reveal"><h3>Проектирование</h3><p>Формируем решение, архитектуру, состав работ и последовательность запуска.</p></article>
+          <article class="step reveal"><h3>Разработка</h3><p>Создаём интерфейс, серверную логику, базы данных и интеграции.</p></article>
+          <article class="step reveal"><h3>Проверка</h3><p>Тестируем ключевые сценарии, исправляем ошибки и готовим продукт к работе.</p></article>
+          <article class="step reveal"><h3>Запуск</h3><p>Размещаем систему, передаём исходники и продолжаем развитие при необходимости.</p></article>
+        </div>
+      </div>
+    </section>
+
+    <section class="section" id="stack">
+      <div class="container">
+        <div class="section-head reveal">
+          <div class="kicker">Технологии</div>
+          <h2>Стек подбирается под задачу</h2>
+          <p>Используем проверенные инструменты для разработки интерфейсов, серверной логики, AI-интеграций, хранения данных и развёртывания.</p>
+        </div>
+        <div class="stack-panel reveal">
+          <div class="stack-row"><div class="stack-title">Backend</div><div class="stack-tags"><span class="stack-chip">Python</span><span class="stack-chip">FastAPI</span><span class="stack-chip">Django</span><span class="stack-chip">Node.js</span><span class="stack-chip">PHP</span></div></div>
+          <div class="stack-row"><div class="stack-title">Frontend</div><div class="stack-tags"><span class="stack-chip">JavaScript</span><span class="stack-chip">TypeScript</span><span class="stack-chip">React</span><span class="stack-chip">HTML5</span><span class="stack-chip">CSS3</span></div></div>
+          <div class="stack-row"><div class="stack-title">AI & Data</div><div class="stack-tags"><span class="stack-chip">OpenAI</span><span class="stack-chip">Claude</span><span class="stack-chip">Qwen</span><span class="stack-chip">DeepSeek</span><span class="stack-chip">RAG</span><span class="stack-chip">Whisper</span></div></div>
+          <div class="stack-row"><div class="stack-title">Databases</div><div class="stack-tags"><span class="stack-chip">PostgreSQL</span><span class="stack-chip">MySQL</span><span class="stack-chip">ClickHouse</span><span class="stack-chip">Redis</span><span class="stack-chip">SQL</span></div></div>
+          <div class="stack-row"><div class="stack-title">Infrastructure</div><div class="stack-tags"><span class="stack-chip">Docker</span><span class="stack-chip">Linux</span><span class="stack-chip">Nginx</span><span class="stack-chip">Git</span><span class="stack-chip">REST API</span><span class="stack-chip">Bitrix24</span></div></div>
+        </div>
+      </div>
+    </section>
+
+    <section class="section section-soft">
+      <div class="container">
+        <div class="section-head reveal">
+          <div class="kicker">Что получает заказчик</div>
+          <h2>Система, которой можно владеть и управлять</h2>
+        </div>
+        <div class="value-grid">
+          <article class="value-card reveal"><span>01 / CONTROL</span><h3>Прозрачность</h3><p>Понятные этапы, зафиксированный объём работ и регулярная демонстрация результата.</p></article>
+          <article class="value-card reveal"><span>02 / OWNERSHIP</span><h3>Исходный код</h3><p>После завершения проекта передаём код и необходимые материалы для дальнейшего развития.</p></article>
+          <article class="value-card reveal"><span>03 / SCALE</span><h3>Запас для роста</h3><p>Проектируем решение так, чтобы новые функции не требовали полной переделки системы.</p></article>
+        </div>
+      </div>
+    </section>
+
+    <section class="contact-section" id="contacts">
+      <div class="container">
+        <div class="contact-shell reveal">
+          <div class="contact-copy">
+            <div class="kicker">Начнём с вашей задачи</div>
+            <h2>Обсудим проект и предложим решение</h2>
+            <p>Опишите идею, текущую проблему или желаемый результат. Мы разберём задачу и определим подходящий формат разработки.</p>
+            <div class="contact-links">
+              <a class="contact-link" href="tg://resolve?phone=79608234035" data-copy="+7 960 823-40-35">
+                <svg viewBox="0 0 24 24" fill="none"><path d="m21 4-3 16-6-4-3 2 1-5 8-7-10 6-5-2 18-6Z" stroke="currentColor" stroke-width="1.7" stroke-linecap="round" stroke-linejoin="round"/></svg>
+                Telegram: +7 960 823-40-35 <small>Открыть</small>
+              </a>
+              <a class="contact-link" href="tg://resolve?phone=79379878726" data-copy="+7 937 987-87-26">
+                <svg viewBox="0 0 24 24" fill="none"><path d="m21 4-3 16-6-4-3 2 1-5 8-7-10 6-5-2 18-6Z" stroke="currentColor" stroke-width="1.7" stroke-linecap="round" stroke-linejoin="round"/></svg>
+                Telegram: +7 937 987-87-26 <small>Открыть</small>
+              </a>
+              <a class="contact-link" href="https://github.com/846Digital" target="_blank" rel="noopener noreferrer">
+                <svg viewBox="0 0 24 24" fill="currentColor"><path d="M12 .7A11.3 11.3 0 0 0 8.4 22.8c.6.1.8-.3.8-.6v-2.2c-3.4.7-4.1-1.4-4.1-1.4-.6-1.4-1.4-1.8-1.4-1.8-1.1-.8.1-.8.1-.8 1.2.1 1.9 1.3 1.9 1.3 1.1 1.9 2.9 1.3 3.6 1 .1-.8.4-1.3.8-1.6-2.7-.3-5.5-1.4-5.5-6a4.7 4.7 0 0 1 1.3-3.3 4.4 4.4 0 0 1 .1-3.2s1-.3 3.5 1.3a12 12 0 0 1 6.3 0c2.4-1.7 3.5-1.3 3.5-1.3a4.4 4.4 0 0 1 .1 3.2 4.7 4.7 0 0 1 1.3 3.3c0 4.7-2.9 5.7-5.6 6 .4.4.8 1.1.8 2.2v3.2c0 .3.2.7.8.6A11.3 11.3 0 0 0 12 .7Z"/></svg>
+                GitHub: 846Digital <small>Профиль</small>
+              </a>
+            </div>
+          </div>
+
+          <form class="brief-form" id="briefForm" novalidate>
+            <h3 class="form-title">Кратко опишите проект</h3>
+            <div class="field">
+              <label for="clientName">Как к вам обращаться</label>
+              <input id="clientName" name="name" type="text" autocomplete="name" placeholder="Ваше имя">
+            </div>
+            <div class="field">
+              <label for="projectType">Что требуется</label>
+              <select id="projectType" name="type">
+                <option value="Разработка программы или веб-приложения">Программа или веб-приложение</option>
+                <option value="Внедрение искусственного интеллекта">Внедрение искусственного интеллекта</option>
+                <option value="Разработка бота">Разработка бота</option>
+                <option value="Автоматизация процессов">Автоматизация процессов</option>
+                <option value="Парсинг и обработка данных">Парсинг и обработка данных</option>
+                <option value="Интеграция или доработка системы">Интеграция или доработка системы</option>
+                <option value="Другая задача">Другая задача</option>
+              </select>
+            </div>
+            <div class="field">
+              <label for="projectText">Задача</label>
+              <textarea id="projectText" name="message" placeholder="Что необходимо разработать и какой результат вы хотите получить?" required></textarea>
+            </div>
+            <div class="form-actions">
+              <button class="btn btn-primary" type="submit">Открыть Telegram</button>
+              <button class="btn btn-secondary" id="copyBrief" type="button">Скопировать</button>
+            </div>
+            <p class="form-note" id="formNote">Текст заявки будет подготовлен и скопирован. Затем откроется Telegram.</p>
+          </form>
+        </div>
+      </div>
+    </section>
+  </main>
+
+  <footer>
+    <div class="container footer-row">
+      <span>© <span id="year"></span> 846 Digital. Разработка цифровых решений.</span>
+      <span><a href="https://github.com/846Digital" target="_blank" rel="noopener noreferrer">GitHub</a> · <a href="#top">Наверх</a></span>
+    </div>
+  </footer>
+
+  <div class="toast" id="toast" role="status" aria-live="polite">Скопировано</div>
+
+  <script>
+    const menuBtn = document.getElementById('menuBtn');
+    const navLinks = document.getElementById('navLinks');
+    const systemCard = document.getElementById('systemCard');
+    const briefForm = document.getElementById('briefForm');
+    const copyBriefBtn = document.getElementById('copyBrief');
+    const formNote = document.getElementById('formNote');
+    const toast = document.getElementById('toast');
+
+    document.getElementById('year').textContent = new Date().getFullYear();
+
+    menuBtn.addEventListener('click', () => {
+      const open = navLinks.classList.toggle('open');
+      menuBtn.classList.toggle('active', open);
+      menuBtn.setAttribute('aria-expanded', String(open));
+    });
+
+    navLinks.querySelectorAll('a').forEach(link => {
+      link.addEventListener('click', () => {
+        navLinks.classList.remove('open');
+        menuBtn.classList.remove('active');
+        menuBtn.setAttribute('aria-expanded', 'false');
+      });
+    });
+
+    if (window.matchMedia('(pointer:fine)').matches) {
+      systemCard.addEventListener('mousemove', event => {
+        const rect = systemCard.getBoundingClientRect();
+        const x = event.clientX - rect.left;
+        const y = event.clientY - rect.top;
+        const rotateY = (x / rect.width - .5) * 8;
+        const rotateX = (.5 - y / rect.height) * 6;
+        systemCard.style.setProperty('--mx', `${x}px`);
+        systemCard.style.setProperty('--my', `${y}px`);
+        systemCard.style.transform = `perspective(1200px) rotateY(${rotateY}deg) rotateX(${rotateX}deg)`;
+      });
+      systemCard.addEventListener('mouseleave', () => {
+        systemCard.style.transform = 'perspective(1200px) rotateY(-4deg) rotateX(2deg)';
+      });
+    }
+
+    const revealObserver = 'IntersectionObserver' in window
+      ? new IntersectionObserver(entries => {
+          entries.forEach(entry => {
+            if (entry.isIntersecting) {
+              entry.target.classList.add('visible');
+              revealObserver.unobserve(entry.target);
+            }
+          });
+        }, { threshold: .08, rootMargin: '0px 0px -35px' })
+      : null;
+
+    document.querySelectorAll('.reveal').forEach(element => {
+      if (revealObserver) revealObserver.observe(element);
+      else element.classList.add('visible');
+    });
+
+    function getBriefText() {
+      const name = document.getElementById('clientName').value.trim() || 'Не указано';
+      const type = document.getElementById('projectType').value;
+      const message = document.getElementById('projectText').value.trim();
+      return `Здравствуйте! Хочу обсудить проект с 846 Digital.\n\nИмя: ${name}\nТип задачи: ${type}\nОписание: ${message}`;
+    }
+
+    async function copyText(text, message = 'Текст заявки скопирован') {
+      try {
+        await navigator.clipboard.writeText(text);
+      } catch (error) {
+        const helper = document.createElement('textarea');
+        helper.value = text;
+        helper.style.position = 'fixed';
+        helper.style.opacity = '0';
+        document.body.appendChild(helper);
+        helper.select();
+        document.execCommand('copy');
+        helper.remove();
+      }
+      showToast(message);
+    }
+
+    function showToast(message) {
+      toast.textContent = message;
+      toast.classList.add('show');
+      window.clearTimeout(showToast.timer);
+      showToast.timer = window.setTimeout(() => toast.classList.remove('show'), 2300);
+    }
+
+    function validateBrief() {
+      const message = document.getElementById('projectText').value.trim();
+      formNote.className = 'form-note';
+      if (message.length < 10) {
+        formNote.textContent = 'Опишите задачу хотя бы в нескольких словах.';
+        formNote.classList.add('error');
+        document.getElementById('projectText').focus();
+        return false;
+      }
+      return true;
+    }
+
+    copyBriefBtn.addEventListener('click', async () => {
+      if (!validateBrief()) return;
+      await copyText(getBriefText());
+      formNote.textContent = 'Заявка скопирована. Вставьте её в сообщение любому из контактов.';
+      formNote.className = 'form-note success';
+    });
+
+    briefForm.addEventListener('submit', async event => {
+      event.preventDefault();
+      if (!validateBrief()) return;
+      await copyText(getBriefText());
+      formNote.textContent = 'Заявка скопирована. Открываем Telegram — вставьте текст в сообщение.';
+      formNote.className = 'form-note success';
+      window.setTimeout(() => { window.location.href = 'tg://resolve?phone=79608234035'; }, 180);
+    });
+
+    document.querySelectorAll('[data-copy]').forEach(link => {
+      link.addEventListener('contextmenu', event => {
+        event.preventDefault();
+        copyText(link.dataset.copy, 'Номер скопирован');
+      });
+    });
+  </script>
+</body>
+</html>
